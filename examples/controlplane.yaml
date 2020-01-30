@@ -1,0 +1,108 @@
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfig
+metadata:
+  name: taco-cluster-controlplane-0
+  namespace: taco-cluster
+spec:
+  clusterConfiguration:
+    apiServer:
+      extraArgs:
+        cloud-config: /etc/kubernetes/cloud.conf
+        cloud-provider: openstack
+      extraVolumes:
+      - hostPath: /etc/kubernetes/cloud.conf
+        mountPath: /etc/kubernetes/cloud.conf
+        name: cloud
+        readOnly: true
+    controlPlaneEndpoint: 192.168.48.47:6443
+    controllerManager:
+      extraArgs:
+        cloud-config: /etc/kubernetes/cloud.conf
+        cloud-provider: openstack
+      extraVolumes:
+      - hostPath: /etc/kubernetes/cloud.conf
+        mountPath: /etc/kubernetes/cloud.conf
+        name: cloud
+        readOnly: true
+      - hostPath: /etc/certs/cacert
+        mountPath: /etc/certs/cacert
+        name: cacerts
+        readOnly: true
+    imageRepository: k8s.gcr.io
+  files:
+  - content: |-
+      # cloud.conf to communicate with OpenStack
+            
+      [Global]
+      auth-url=http://keystone.openstack.svc.cluster.local:80/v3
+      username="nacho"
+      password="nacho"
+      tenant-id="8aa2ea38a52d4cd49fa1c77d1fe9d663"
+      domain-name="Default"
+      
+      region="RegionOne"
+        
+    owner: root
+    path: /etc/kubernetes/cloud.conf
+    permissions: "0600"
+  - content: |
+      
+    owner: root
+    path: /etc/certs/cacert
+    permissions: "0600"
+  initConfiguration:
+    localAPIEndpoint:
+      advertiseAddress: '{{ ds.ec2_metadata.local_ipv4 }}'
+      bindPort: 6443
+    nodeRegistration:
+      kubeletExtraArgs:
+        cloud-config: /etc/kubernetes/cloud.conf
+        cloud-provider: openstack
+      name: '{{ local_hostname }}'
+  ntp:
+    servers: []
+  users:
+  - name: centos
+    sshAuthorizedKeys:
+    - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrdu6Ptek3NXG7AXqGW6hKy0I/1kJOGE2+mhAW6H0iWAt43slFzQxUBmL8SwYeh3lt0fj4PsmlJSpQP2JSIBXxzl33o6a43hmM8rSyaFpwTO8ZzlWL5o8w8UyFKT+VLlzSCyadDBgHIBhJQGPcYSSnQMgnrnPATpBpdUOk42gAVmif503DAo5gzkMPqy00ZVig+wxMI3QX7714wV14VlI1xF1ztgII35WnYnZ1O4LeYbfbbxEk61x+dNR6HPRe3cW9l4VFPF72/panwYl3P+pZ88nYkVSy0z/LJsZgyMXx7ZC5CVsoScilFrnglDm96JcA/WYYz8wbCuAxKhue6AZ9 centos@admin.novalocal"
+    sudo: ALL=(ALL) NOPASSWD:ALL
+---
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: Machine
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: taco-cluster
+    cluster.x-k8s.io/control-plane: "true"
+  name: taco-cluster-controlplane-0
+  namespace: taco-cluster
+spec:
+  bootstrap:
+    configRef:
+      apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+      kind: KubeadmConfig
+      name: taco-cluster-controlplane-0
+      namespace: taco-cluster
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+    kind: OpenStackMachine
+    name: taco-cluster-controlplane-0
+    namespace: taco-cluster
+  version: v1.15.3
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: OpenStackMachine
+metadata:
+  name: taco-cluster-controlplane-0
+  namespace: taco-cluster
+spec:
+  availabilityZone: nova
+  cloudName: taco-openstack
+  cloudsSecret:
+    name: cloud-config
+    namespace: taco-cluster
+  flavor: k8s
+  floatingIP: 192.168.48.47
+  image: k8s-image
+  sshKeyName: taco-key
+  securityGroups:
+    - name: taco-sec

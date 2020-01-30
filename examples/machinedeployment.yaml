@@ -1,0 +1,95 @@
+apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+kind: KubeadmConfigTemplate
+metadata:
+  name: taco-cluster-md-0
+  namespace: taco-cluster
+spec:
+  template:
+    spec:
+      files:
+      - content: |-
+          # cloud.conf to communicate with OpenStack
+                    
+          [Global]
+          auth-url=http://keystone.openstack.svc.cluster.local:80/v3
+          username="nacho"
+          password="nacho"
+          tenant-id="8aa2ea38a52d4cd49fa1c77d1fe9d663"
+          domain-name="Default"
+          
+          region="RegionOne"
+            
+        owner: root
+        path: /etc/kubernetes/cloud.conf
+        permissions: "0600"
+      - content: |
+          
+        owner: root
+        path: /etc/certs/cacert
+        permissions: "0600"
+      joinConfiguration:
+        nodeRegistration:
+          kubeletExtraArgs:
+            cloud-config: /etc/kubernetes/cloud.conf
+            cloud-provider: openstack
+          name: '{{ local_hostname }}'
+      ntp:
+        servers: []
+      users:
+      - name: centos
+        sshAuthorizedKeys:
+        - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCrdu6Ptek3NXG7AXqGW6hKy0I/1kJOGE2+mhAW6H0iWAt43slFzQxUBmL8SwYeh3lt0fj4PsmlJSpQP2JSIBXxzl33o6a43hmM8rSyaFpwTO8ZzlWL5o8w8UyFKT+VLlzSCyadDBgHIBhJQGPcYSSnQMgnrnPATpBpdUOk42gAVmif503DAo5gzkMPqy00ZVig+wxMI3QX7714wV14VlI1xF1ztgII35WnYnZ1O4LeYbfbbxEk61x+dNR6HPRe3cW9l4VFPF72/panwYl3P+pZ88nYkVSy0z/LJsZgyMXx7ZC5CVsoScilFrnglDm96JcA/WYYz8wbCuAxKhue6AZ9 centos@admin.novalocal"
+        sudo: ALL=(ALL) NOPASSWD:ALL
+---
+apiVersion: cluster.x-k8s.io/v1alpha2
+kind: MachineDeployment
+metadata:
+  labels:
+    cluster.x-k8s.io/cluster-name: taco-cluster
+    nodepool: nodepool-0
+  name: taco-cluster-md-0
+  namespace: taco-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: taco-cluster
+      nodepool: nodepool-0
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: taco-cluster
+        nodepool: nodepool-0
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1alpha2
+          kind: KubeadmConfigTemplate
+          name: taco-cluster-md-0
+          namespace: taco-cluster
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+        kind: OpenStackMachineTemplate
+        name: taco-cluster-md-0
+        namespace: taco-cluster
+      version: v1.15.3
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha2
+kind: OpenStackMachineTemplate
+metadata:
+  name: taco-cluster-md-0
+  namespace: taco-cluster
+spec:
+  template:
+    spec:
+      availabilityZone: nova
+      cloudName: taco-openstack
+      cloudsSecret:
+        name: cloud-config
+        namespace: taco-cluster
+      flavor: k8s
+      image: k8s-image
+      sshKeyName: taco-key
+      securityGroups:
+      - name: taco-sec
+

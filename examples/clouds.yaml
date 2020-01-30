@@ -1,0 +1,11 @@
+clouds:
+  taco-openstack:
+    auth:
+      auth_url: http://keystone.openstack.svc.cluster.local:80/v3
+      project_name: taco
+      username: nacho
+      password: nacho
+      user_domain_name: Default
+      project_domain_name: Default
+      project_id: 8aa2ea38a52d4cd49fa1c77d1fe9d663
+    region_name: RegionOne
