@@ -1,13 +1,17 @@
 # tacoctl 
-CLI tool for TACOPLAY
+CLI tool for Declarative Lifecycle Management of Kubernetes Cluster
 
 ------
 
 ## What is the tacoctl
 
-The tacoctl is next deploy management tool of [tacoplay](github.com/openinfradev/tacoctl). It support a Cluster
-API, provide a Kubernetes Cluster on BareMetal or OpenStack. It's under 
-construction now.
+The tacoctl project is a CLI tool for declarative management of kubernetes and 
+underlying infrastructure, mainly leveraging the Kubernetes Cluster API. It 
+builds and manage a Kubernetes Cluster either on Baremetal or OpenStack VMs.
+
+This project is the ongoing effort to produce next generation of existing 
+[tacoplay](github.com/openinfradev/tacoctl). Currently, the tacoctl is at an very early development stage.
+
 
 ## Installation
 
@@ -65,8 +69,8 @@ tacoctl create node
 
 ## Features
 
-- Manage a lifecycle a Kubernetes cluster on OpenStack.
+- the lifecycle of a Kubernetes cluster
 
 ## Roadmap
 
-- Manage a lifecycle a Kubernetes cluster on Barematal.
+- the lifecycle of a Kubernetes cluster on Baremetal
