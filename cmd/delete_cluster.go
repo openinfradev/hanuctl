@@ -52,7 +52,7 @@ to quickly create a Cobra application.`,
 func deleteCluster() error {
 	var clouds clientconfig.Clouds
 	var cloud clientconfig.Cloud
-	cloudsyaml := "/tmp/tacoctl/clouds.yaml"
+	cloudsyaml := "/tmp/hanuctl/clouds.yaml"
 	content, err := ioutil.ReadFile(cloudsyaml)
 	if err != nil {
 	        return err

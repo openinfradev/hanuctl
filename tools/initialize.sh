@@ -1,9 +1,9 @@
 #!/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 echo $DIR
-if [ ! -d "/tmp/tacoctl/" ]
+if [ ! -d "/tmp/hanuctl/" ]
 then
-	mkdir /tmp/tacoctl/
+	mkdir /tmp/hanuctl/
 fi
 EXAMPLE="$(dirname "$DIR")"/examples/*
-cp $EXAMPLE /tmp/tacoctl/
+cp $EXAMPLE /tmp/hanuctl/

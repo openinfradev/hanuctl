@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/openinfradev/tacoctl/cmd"
+import "github.com/openinfradev/hanuctl/cmd"
 
 func main() {
   cmd.Execute()

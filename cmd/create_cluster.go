@@ -54,13 +54,13 @@ to quickly create a Cobra application.`,
 }
 
 func CreateCluster(co *cluster.CreateOptions)  {
-	co.Cluster = "/tmp/tacoctl/cluster.yaml"
-	co.Machine = "/tmp/tacoctl/controlplane.yaml"
-	co.ProviderComponents = "/tmp/tacoctl/provider-components.yaml"
-	co.AddonComponents = "/tmp/tacoctl/addons.yaml"
-	co.BootstrapFlags.KubeConfig = "/tmp/tacoctl/kubeconfig"
+	co.Cluster = "/tmp/hanuctl/cluster.yaml"
+	co.Machine = "/tmp/hanuctl/controlplane.yaml"
+	co.ProviderComponents = "/tmp/hanuctl/provider-components.yaml"
+	co.AddonComponents = "/tmp/hanuctl/addons.yaml"
+	co.BootstrapFlags.KubeConfig = "/tmp/hanuctl/kubeconfig"
 	co.BootstrapFlags.Type = "none"
-	co.KubeconfigOutput = "/tmp/tacoctl/targetconfig"
+	co.KubeconfigOutput = "/tmp/hanuctl/targetconfig"
 	if err := cluster.RunCreate(co); err != nil {
         	klog.Exit(err)
 	}

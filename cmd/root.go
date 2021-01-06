@@ -31,9 +31,9 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-  Use:   "tacoctl",
+  Use:   "hanuctl",
   Short: "CLI tool for manage Kubernetes",
-  Long: `Find more information at: https://github.com/openinfradev/tacoctl`,
+  Long: `Find more information at: https://github.com/openinfradev/hanuctl`,
   Run: func(cmd *cobra.Command, args []string) { },
 }
 
@@ -53,7 +53,7 @@ func init() {
   // Cobra supports persistent flags, which, if defined here,
   // will be global for your application.
 
-  rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.tacoctl.yaml)")
+  rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.hanuctl.yaml)")
 }
 
 
@@ -71,9 +71,9 @@ func initConfig() {
       os.Exit(1)
     }
 
-    // Search config in home directory with name ".tacoctl" (without extension).
+    // Search config in home directory with name ".hanuctl" (without extension).
     viper.AddConfigPath(home)
-    viper.SetConfigName(".tacoctl")
+    viper.SetConfigName(".hanuctl")
   }
 
   viper.SetConfigType("yaml")
