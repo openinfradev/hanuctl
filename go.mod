@@ -1,4 +1,4 @@
-module github.com/openinfradev/tacoctl
+module github.com/openinfradev/hanuctl
 
 go 1.12
 

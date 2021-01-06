@@ -1,35 +1,35 @@
-# tacoctl 
+# hanuctl 
 CLI tool for Declarative Lifecycle Management of Kubernetes Cluster
 
 ------
 
-## What is the tacoctl
+## What is the hanuctl
 
-The tacoctl project is a CLI tool for declarative management of kubernetes and 
+The hanuctl project is a CLI tool for declarative management of kubernetes and 
 underlying infrastructure, mainly leveraging the Kubernetes Cluster API. It 
 builds and manage a Kubernetes Cluster either on Baremetal or OpenStack VMs.
 
 This project is the ongoing effort to produce next generation of existing 
-[tacoplay](github.com/openinfradev/tacoctl). Currently, the tacoctl is at an very early development stage.
+[tacoplay](github.com/openinfradev/hanuctl). Currently, the hanuctl is at an very early development stage.
 
 
 ## Installation
 
-Build after receiving the tacoctl source from the github repository. At this 
+Build after receiving the hanuctl source from the github repository. At this 
 time, golang must be installed.
 
 ```sh
-git clone https://github.com/openinfradev/tacoctl.git
-cd tacoctl
+git clone https://github.com/openinfradev/hanuctl.git
+cd hanuctl
 git checkout v0.1
 make build
-mv bin/tacoctl /usr/local/bin
-tacoctl -h
-Find more information at: https://github.com/openinfradev/tacoctl
+mv bin/hanuctl /usr/local/bin
+hanuctl -h
+Find more information at: https://github.com/openinfradev/hanuctl
  
 Usage:
-  tacoctl [flags]
-  tacoctl [command]
+  hanuctl [flags]
+  hanuctl [command]
  
 Available Commands
   completion  Generates bash completion scripts
@@ -40,31 +40,31 @@ Available Commands
   version     Print this tool version information
  
 Flags:
-      --config string   config file (default is $HOME/.tacoctl.yaml)
-  -h, --help            help for tacoctl
+      --config string   config file (default is $HOME/.hanuctl.yaml)
+  -h, --help            help for hanuctl
  
-Use "tacoctl [command] --help" for more information about a command.
+Use "hanuctl [command] --help" for more information about a command.
 
 ```
 ## Configuration
 
 ### Initialization
 Use `tools/initialize.sh` for configuration. It copied yaml files to 
-`/tmp/tacoctl/`, so you could fix it to your environment.
+`/tmp/hanuctl/`, so you could fix it to your environment.
 
 ## Basic Usage
 
 ### Create and Delete Cluster 
 
 ```sh
-tacoctl create cluster
-tacoctl delete cluster
+hanuctl create cluster
+hanuctl delete cluster
 ```
 
 ### Add Worker Node
 
 ```sh
-tacoctl create node
+hanuctl create node
 ```
 
 ## Features

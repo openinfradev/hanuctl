@@ -3,7 +3,7 @@ SHELL := /bin/bash
 GO_FLAGS            := -ldflags '-extldflags "-static"' -tags=netgo
 
 BINDIR              := bin
-EXECUTABLE_CLI      := tacoctl
+EXECUTABLE_CLI      := hanuctl
 TOOLBINDIR          := tools/bin
 
 # go options

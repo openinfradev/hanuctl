@@ -49,8 +49,8 @@ to quickly create a Cobra application.`,
 }
 
 func ApplyMachines(amdo *ApplyMachineDeploymentsOptions) error{
-	amdo.Kubeconfig = "/tmp/tacoctl/targetconfig"
-	amdo.MachineDeployments = "/tmp/tacoctl/machinedeployment.yaml"
+	amdo.Kubeconfig = "/tmp/hanuctl/targetconfig"
+	amdo.MachineDeployments = "/tmp/hanuctl/machinedeployment.yaml"
 	amdo.Namespace = "taco-cluster"
 
         kubeconfig, err := ioutil.ReadFile(amdo.Kubeconfig)
